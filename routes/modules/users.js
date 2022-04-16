@@ -10,6 +10,7 @@ const User = db.User
 const passport = require('passport')
 const bcrypt = require('bcryptjs')
 
+// 定義路由
 router.get('/login', (req, res) => {
   res.render('login')
 })
@@ -71,4 +72,5 @@ router.get('/logout', (req, res) => {
   res.redirect('/users/login')
 })
 
+// 匯出路由模組
 module.exports = router
