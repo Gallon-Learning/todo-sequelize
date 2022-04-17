@@ -8,10 +8,12 @@ const Todo = db.Todo
 
 // 定義首頁路由
 router.get('/', (req, res) => {
+  const userId = req.user.id
   return Todo.findAll({
     order: [
       ['id', 'ASC']
     ],
+    where: { userId },
     raw: true,
     nest: true
   })
