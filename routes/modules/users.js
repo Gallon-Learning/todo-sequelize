@@ -14,7 +14,20 @@ const bcrypt = require('bcryptjs')
 router.get('/login', (req, res) => {
   res.render('login')
 })
-router.post('/login', passport.authenticate('local', {
+router.post('/login', (req, res, next) => {
+  const { email, password } = req.body
+  const errors = []
+  if (!email || !password) {
+    errors.push({ message: 'Both email and passport are required!' })
+  }
+  if (errors.length) {
+    return res.render('login', {
+      errors,
+      email
+    })
+  }
+  next()
+},passport.authenticate('local', {
   successRedirect: '/',
   failureRedirect: '/users/login',
   failureFlash: true
@@ -23,7 +36,6 @@ router.get('/register', (req, res) => {
   res.render('register')
 })
 router.post('/register', (req, res) => {
-  // 取得註冊表單參數
   const { name, email, password, confirmPassword } = req.body
   const errors = []
   if (!name || !email || !password || !confirmPassword) {
